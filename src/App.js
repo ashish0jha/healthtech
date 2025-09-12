@@ -5,20 +5,14 @@ import ResourceHub from "./components/ResourceHub";
 import PeerForum from "./components/PeerForum";
 import AdminDashboard from "./components/AdminDashboard";
 import Body from "./components/Body";
+import Navbar from "./components/NavBar";
 
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <nav className="fixed top-0 w-full z-50 ">
-          <Link to="/">Home</Link>
-          <Link to="/chatbot">AI Chatbot</Link>
-          <Link to="/booking">Book Appointment</Link>
-          <Link to="/resources">Resource Hub</Link>
-          <Link to="/forum">Peer Forum</Link>
-          <Link to="/admin">Admin Dashboard</Link>
-        </nav>
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chatbot" element={<Chatbot />} />

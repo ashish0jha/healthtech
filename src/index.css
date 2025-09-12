@@ -162,8 +162,8 @@ section ul {
     max-width: 97vw;
   }
   nav {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
 
