@@ -1,7 +1,3 @@
-import React, { useState } from "react";
-
-const availableLanguages = ["English"];
-
 const resources = {
   English:[
   { "type": "video", "title": "Mindful Breathing Exercise", "url": "https://www.youtube.com/embed/wfDTp2GogaQ" },
@@ -19,7 +15,6 @@ const resources = {
 };
 
 function ResourceHub() {
-  const [lang, setLang] = useState("English");
 
   return (
     <div className="min-h-screen bg-blue-100 px-6 py-10 font-sans pt-[105px] ">
@@ -27,9 +22,9 @@ function ResourceHub() {
         📚 Localized Resource Hub
       </h2>
 
-      {lang === "English" ? (
+      
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {resources[lang].map((r, i) => (
+          {resources.English.map((r, i) => (
             <div
               key={i}
               className="bg-transparent rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
@@ -50,24 +45,7 @@ function ResourceHub() {
             </div>
           ))}
         </div>
-      ) : (
-        <ul className="max-w-xl mx-auto text-center text-gray-800 text-lg space-y-4">
-          {resources[lang].map((r, i) => (
-            <li key={i}>
-              {r.type === "audio" && (
-                <a href={r.url} className="text-blue-600 hover:underline">
-                  Listen: {r.title}
-                </a>
-              )}
-              {r.type === "guide" && (
-                <a href={r.url} className="text-blue-600 hover:underline">
-                  Read: {r.title}
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+      
     </div>
   );
 }
