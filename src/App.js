@@ -35,6 +35,7 @@ const Home = () => (
   <>
     <Body/>
   </>
+
 );
 
 export default App;
