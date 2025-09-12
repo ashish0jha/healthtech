@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import Chatbot from "./components/Chatbot";
 import Booking from "./components/Booking";
@@ -19,14 +19,14 @@ function App() {
           <Link to="/forum">Peer Forum</Link>
           <Link to="/admin">Admin Dashboard</Link>
         </nav>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/chatbot" component={Chatbot} />
-          <Route path="/booking" component={Booking} />
-          <Route path="/resources" component={ResourceHub} />
-          <Route path="/forum" component={PeerForum} />
-          <Route path="/admin" component={AdminDashboard} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/resources" element={<ResourceHub />} />
+          <Route path="/forum" element={<PeerForum />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
       </div>
     </Router>
   );
@@ -35,7 +35,10 @@ function App() {
 const Home = () => (
   <section>
     <h1>Digital Mental Health Platform for Higher Education</h1>
-    <p>Empowering students with AI, confidential support, inclusive resources, peer community, and data-driven wellness.</p>
+    <p>
+      Empowering students with AI, confidential support, inclusive resources,
+      peer community, and data-driven wellness.
+    </p>
   </section>
 );
 
