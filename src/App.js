@@ -23,7 +23,7 @@ function App() {
         </Routes>
       </div>
       <footer className="bg-indigo-700 text-white text-center py-6">
-        <p className="text-sm md:text-base animate-blink">
+        <p className="text-sm md:text-base">
           💙 Empowering students with stigma-free mental wellness support
         </p>
       </footer>
