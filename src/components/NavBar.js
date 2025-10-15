@@ -5,17 +5,16 @@ import { auth } from "../firebase";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [hoverUser, setHoverUser] = useState(false);
   const user = auth.currentUser;
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await auth.signOut();
-    navigate("/");
-  };
-
   const displayName = user?.displayName?.split(" (")[0];
   const userType = user?.displayName?.split(" (")[1]?.replace(")", "");
+
+  const handleUserClick = () => {
+    navigate("/user");
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#5477ff] shadow-md flex items-center justify-between px-4 py-2">
@@ -35,44 +34,28 @@ const Navbar = () => {
         <Link to="/resources">Resource Hub</Link>
         <Link to="/forum">Peer Forum</Link>
         <Link to="/call-support">Call Support</Link>
-        <Link to="/admin">Admin Dashboard</Link>
-      </div>
-
-      {/* User Section */}
-      {user && (
-        <div className="relative ml-4">
-          <button
-            onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className="flex items-center space-x-2 text-white focus:outline-none"
+        {userType === "Admin" && <Link to="/admin">Admin Dashboard</Link>}
+        {user && (
+          <div
+            className="relative ml-4"
+            onMouseEnter={() => setHoverUser(true)}
+            onMouseLeave={() => setHoverUser(false)}
           >
-            <UserCircle2 size={28} />
-            <span className="hidden md:inline font-semibold">
-              {displayName} ({userType})
-            </span>
-          </button>
-
-          {userMenuOpen && (
-            <div className="absolute right-0 mt-2 w-44 bg-white rounded shadow-md z-50">
-              <Link
-                to="/user"
-                onClick={() => setUserMenuOpen(false)}
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                Dashboard
-              </Link>
-              <button
-                onClick={() => {
-                  setUserMenuOpen(false);
-                  handleLogout();
-                }}
-                className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+            <button
+              onClick={handleUserClick}
+              className="text-white focus:outline-none"
+            >
+              <UserCircle2 size={32} />
+            </button>
+            {hoverUser && (
+              <div className="absolute right-0 mt-2 bg-white text-gray-800 text-sm px-3 py-2 rounded shadow-md whitespace-nowrap">
+                {displayName} ({userType})
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      
 
       {/* Hamburger Menu Button (Mobile) */}
       <button
@@ -93,24 +76,16 @@ const Navbar = () => {
             { to: "/resources", label: "Resource Hub" },
             { to: "/forum", label: "Peer Forum" },
             { to: "/call-support", label: "Call Support" },
-            { to: "/admin", label: "Admin Dashboard" },
-            ...(user
-              ? [
-                  { to: "/user", label: "Dashboard" },
-                  { to: "/", label: "Logout", action: handleLogout },
-                ]
-              : []),
+            ...(userType === "Admin" ? [{ to: "/admin", label: "Admin Dashboard" }] : []),
           ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => {
-                setMenuOpen(false);
-                item.action ? item.action() : navigate(item.to);
-              }}
-              className="text-left px-2 py-1 text-gray-700 rounded hover:bg-gray-100"
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setMenuOpen(false)}
+              className="block px-2 py-1 text-gray-700 rounded hover:bg-gray-100"
             >
               {item.label}
-            </button>
+            </Link>
           ))}
         </div>
       )}

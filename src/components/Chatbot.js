@@ -65,7 +65,7 @@ function Chatbot() {
   }, [messages, isTyping]);
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-blue-200 font-sans mt-[65px]">
+    <div className="min-h-screen w-full flex items-center justify-center bg-blue-200 font-sans">
       <style>{fadeInStyles}</style>
       <main className="relative w-[90vw] h-[80vh] flex flex-col rounded-2xl shadow-2xl border border-blue-100 overflow-hidden bg-blue-200">
         <header className="flex items-center justify-center py-6 bg-blue-200">

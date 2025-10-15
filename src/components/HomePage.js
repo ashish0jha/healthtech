@@ -35,7 +35,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-blue-200 to-indigo-100 min-h-screen flex flex-col mt-[65px]">
+    <div className="bg-gradient-to-b from-blue-200 to-indigo-100 min-h-screen flex flex-col">
 
       {/* Hero Section */}
       <header className="text-center py-16 px-6">
