@@ -10,6 +10,7 @@ import CallSupport from "./components/CallSupport";
 import Login from "./Pages/Login"; 
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
+import UserDashboard from "./components/UserDashboard";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -99,6 +100,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
             </ProtectedRoute>
           }
         />

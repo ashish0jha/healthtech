@@ -12,6 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [type, setType] = useState("Student");
   const [login, setLogin] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const Login = () => {
       } else {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, {
-          displayName: name,
+          displayName: `${name} (${type})`,
         });
         alert("Account created successfully!");
         navigate("/");
@@ -62,14 +63,24 @@ const Login = () => {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {!login && (
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            <>
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="Student">Student</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </>
           )}
           <input
             type="email"
@@ -99,7 +110,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Google Sign-In Button */}
         <button
           onClick={handleGoogleSignIn}
           disabled={loading}
