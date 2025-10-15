@@ -16,7 +16,7 @@ function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-blue-100 p-8 font-sans mt-[65px]">
+    <div className="min-h-screen bg-blue-100 p-8 font-sans">
       <header className="mb-8 flex flex-col items-center">
         <h1 className="text-4xl font-bold text-blue-900 tracking-tight select-none">
           Admin Dashboard

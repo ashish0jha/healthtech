@@ -25,6 +25,7 @@ function Chatbot() {
 
     User input: ${input}`;
     
+    
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
     setInput("");
     setIsTyping(true);

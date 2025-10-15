@@ -14,21 +14,24 @@ import { auth } from "./firebase";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ loading state
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        localStorage.setItem("user", JSON.stringify(currentUser));
-        setUser(currentUser);
-      } else {
-        localStorage.removeItem("user");
-        setUser(null);
-      }
+      setUser(currentUser);
+      setLoading(false); // ✅ auth check complete
     });
     return () => unsubscribe();
   }, []);
 
   const ProtectedRoute = ({ children }) => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center min-h-screen text-indigo-600 text-xl">
+          Checking login status...
+        </div>
+      );
+    }
     return user ? children : <Navigate to="/login" />;
   };
 

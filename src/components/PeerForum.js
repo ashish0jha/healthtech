@@ -1,34 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { auth, db } from "../firebase";
+import { doc, getDoc, setDoc, arrayUnion } from "firebase/firestore";
 
-function PeerForum() {
-  const [posts, setPosts] = useState([
-    { author: "Volunteer", text: "Share your story or worries, it's safe here." },
-  ]);
+export default function PeerForum() {
+  const [posts, setPosts] = useState([]);
   const [input, setInput] = useState("");
+  const [userName, setUserName] = useState("Anonymous");
 
-  const submitPost = () => {
+  // ✅ Get user name from Firebase Auth
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const name = user.displayName?.split(" (")[0] || "Anonymous";
+        setUserName(name);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // ✅ Load posts from Firestore
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const ref = doc(db, "peerComments", "globalFeed");
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        setPosts(snap.data().comments || []);
+      } else {
+        setPosts([
+          { author: "Volunteer", text: "Share your story or worries, it's safe here." },
+        ]);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+  // ✅ Submit post to Firestore
+  const submitPost = async () => {
     if (input.trim() === "") return;
-    setPosts([...posts, { author: "Student", text: input.trim() }]);
+    const newPost = {
+      author: userName,
+      text: input.trim(),
+      timestamp: new Date().toISOString(),
+    };
+    const ref = doc(db, "peerComments", "globalFeed");
+    await setDoc(ref, { comments: arrayUnion(newPost) }, { merge: true });
+    setPosts((prev) => [...prev, newPost]);
     setInput("");
   };
 
   return (
-    <div className="min-h-screen bg-blue-100 flex flex-col items-center justify-start px-4 py-10 font-sans pt-[105px]">
-      <main className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-6">
+    <div className="h-screen bg-blue-100 flex flex-col items-center justify-start px-4 py-10 font-sans pt-[105px]">
+      <main className="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-6">
         <h2 className="text-3xl font-bold text-blue-900 text-center select-none">
           🤝 Peer Support Forum
         </h2>
 
         {/* Posts section */}
         <div
-          className="flex-1 overflow-y-auto max-h-[400px] border border-blue-200 rounded-lg p-4 bg-blue-50 space-y-4"
+          className="flex-1 overflow-y-auto max-h-[310px] border border-blue-200 rounded-lg p-4 bg-blue-50 space-y-4"
           aria-label="Peer posts"
         >
           {posts.map((p, i) => (
             <article
               key={i}
               className={`p-4 rounded-lg shadow-sm ${
-                p.author === "Volunteer" ? "bg-blue-100 border-l-4 border-blue-400" : "bg-white border border-gray-200"
+                p.author === "Volunteer"
+                  ? "bg-blue-100 border-l-4 border-blue-400"
+                  : "bg-white border border-gray-200"
               }`}
               tabIndex={0}
               aria-label={`${p.author} posted`}
@@ -71,5 +109,3 @@ function PeerForum() {
     </div>
   );
 }
-
-export default PeerForum;
