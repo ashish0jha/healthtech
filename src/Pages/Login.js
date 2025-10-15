@@ -56,8 +56,10 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div
+  className="flex items-center justify-center min-h-screen px-4 bg-[url('https://img.freepik.com/free-photo/healthcare-experts-discuss-recovery-strategies-treatment-center_53876-145042.jpg')] bg-cover bg-center bg-no-repeat"
+>
+      <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
           {login ? "Login" : "Register"}
         </h2>
@@ -104,7 +106,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition duration-200"
+            className="w-full bg-black text-white py-2 rounded-md hover:bg-indigo-700 transition duration-200"
           >
             {loading ? "Please wait..." : login ? "Login" : "Register"}
           </button>
@@ -113,7 +115,7 @@ const Login = () => {
         <button
           onClick={handleGoogleSignIn}
           disabled={loading}
-          className="mt-4 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-200"
+          className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-indigo-700 transition duration-200"
         >
           {loading ? "Signing in..." : "Sign in with Google"}
         </button>

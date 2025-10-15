@@ -14,7 +14,7 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center pt-20 px-4">
+    <div className="min-h-screen bg-gradient-to-br bg-blue-200 flex items-center justify-center pt-20 px-4">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md text-center">
         <h2 className="text-3xl font-bold text-indigo-700 mb-4">Welcome, {name}</h2>
         <p className="text-gray-600 mb-6">Here are your account details:</p>
@@ -34,7 +34,7 @@ const UserDashboard = () => {
         </div>
         <button
           onClick={handleLogout}
-          className="mt-8 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-200"
+          className="mt-8 w-full bg-black text-white py-2 rounded-md hover:bg-red-600 transition duration-200"
         >
           Sign Out
         </button>
