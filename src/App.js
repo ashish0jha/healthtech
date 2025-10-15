@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Chatbot from "./components/Chatbot";
 import Booking from "./components/Booking";
 import ResourceHub from "./components/ResourceHub";
@@ -6,36 +6,105 @@ import PeerForum from "./components/PeerForum";
 import AdminDashboard from "./components/AdminDashboard";
 import Body from "./components/Body";
 import Navbar from "./components/NavBar";
-
+import CallSupport from "./components/CallSupport";
+import Login from "./Pages/Login"; 
+import { useEffect, useState } from "react";
+import { auth } from "./firebase";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  // ✅ Track login state automatically
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        localStorage.setItem("user", JSON.stringify(currentUser));
+        setUser(currentUser);
+      } else {
+        localStorage.removeItem("user");
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const ProtectedRoute = ({ children }) => {
+    return user ? children : <Navigate to="/login" />;
+  };
+
+  const Home = () => (
+    <>
+      <Navbar />
+      <Body />
+    </>
+  );
+
   return (
     <Router>
-      <div className="App">
-        <Navbar/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/chatbot" element={<Chatbot />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/resources" element={<ResourceHub />} />
-          <Route path="/forum" element={<PeerForum />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-        </Routes>
-      </div>
-      <footer className="bg-indigo-700 text-white text-center py-6">
-        <p className="text-sm md:text-base animate-blink">
-          💙 Empowering students with stigma-free mental wellness support
-        </p>
-      </footer>
+      <Routes>
+        {/* 🔹 Public Route */}
+        <Route path="/login" element={<Login />} />
+
+        {/* 🔹 Protected Routes */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/call-support"
+          element={
+            <ProtectedRoute>
+              <CallSupport />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chatbot"
+          element={
+            <ProtectedRoute>
+              <Chatbot />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/booking"
+          element={
+            <ProtectedRoute>
+              <Booking />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/resources"
+          element={
+            <ProtectedRoute>
+              <ResourceHub />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/forum"
+          element={
+            <ProtectedRoute>
+              <PeerForum />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </Router>
   );
 }
-
-const Home = () => (
-  <>
-    <Body/>
-  </>
-
-);
 
 export default App;

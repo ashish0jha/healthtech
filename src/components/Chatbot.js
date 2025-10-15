@@ -119,13 +119,6 @@ function Chatbot() {
             autoComplete="off"
             aria-label="Type your concern"
           />
-          <button
-            type="submit"
-            className="px-6 py-2 rounded-full bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition"
-            aria-label="Send message"
-          >
-            Send
-          </button>
         </form>
       </main>
     </div>
